@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "pandas": "^0.0.3",
+    "path": "^0.12.7"
+  }
+}
