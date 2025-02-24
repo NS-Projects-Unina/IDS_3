@@ -21,7 +21,7 @@ def analyze_traffic(csv_file):
                     "timestamp": now,
                     "connection_id": row['BSSID'],
                     "alert_level": "High",
-                    "threat_type": "Deauthentication Attack",
+                    "threat_type": "Dos Attack",
                     "source": row['BSSID']
                 })
         
