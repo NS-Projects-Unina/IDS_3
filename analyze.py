@@ -5,7 +5,8 @@ import json
 # Funzione per analizzare i dati
 def analyze_traffic(csv_file):
     try:
-        df = pd.read_csv(csv_file, skiprows=1, encoding='ISO-8859-1', sep=',', error_bad_lines=False)
+        df = pd.read_csv(csv_file, skiprows=1, encoding='ISO-8859-1', sep=',', on_bad_lines='skip')
+
  
         df.columns = df.columns.str.strip()  # Rimuove spazi nei nomi delle colonne
         

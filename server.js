@@ -4,9 +4,15 @@ const express = require("express");
 const { exec } = require("child_process");
 const cors = require("cors");
 const path = require("path");
+const https = require("https");
+const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
+const PORT_HTTPS = 8080;
+
+const key = fs.readFileSync("server.key");
+const cert = fs.readFileSync("server.cert");
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, "interfaccia/")));
@@ -14,6 +20,10 @@ app.use(express.static(path.join(__dirname, "interfaccia/")));
 
 app.listen(PORT, () => {
     console.log(`Server in ascolto su http://localhost:${PORT}`);
+});
+
+https.createServer({ key, cert }, app).listen(PORT_HTTPS, () => {
+    console.log(`Server HTTPS in ascolto su https://localhost:${PORT_HTTPS}`);
 });
 
 app.get("/logs", (req, res) => {
