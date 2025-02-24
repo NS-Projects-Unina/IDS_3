@@ -13,7 +13,7 @@ def analyze_traffic(csv_file):
         alerts = []
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        # 1️ Deauthentication Attack 
+        # 1️ Dos Attack 
         if 'BSSID' in df.columns and 'Packets' in df.columns:
             high_packet_macs = df[df['Packets'] > 100]  # Soglia da valutare
             for _, row in high_packet_macs.iterrows():
