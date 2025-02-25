@@ -6,6 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const https = require("https");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 const app = express();
 const PORT = 3000;
@@ -13,6 +14,21 @@ const PORT_HTTPS = 8080;
 
 const key = fs.readFileSync("server.key");
 const cert = fs.readFileSync("server.cert");
+
+const MONGO_URI = "mongodb://127.0.0.1:27017/network_logs"; 
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("MongoDB connesso"))
+    .catch(err => console.error("Errore connessione MongoDB:", err));
+
+// Definizione schema e modello per il db
+const logSchema = new mongoose.Schema({
+    timestamp: { type: Date, default: Date.now },
+    alertLevel: String,
+    attackType: String,
+    source: String
+});
+const Log = mongoose.model("Log", logSchema);
+
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, "interfaccia/")));
@@ -42,10 +58,25 @@ app.get("/logs", (req, res) => {
 
         try {
             const logs = JSON.parse(stdout);
+            logs.forEach(logData => {
+                const log = new Log({
+                    timestamp: logData.timestamp,
+                    alertLevel: logData.alert_level,
+                    attackType: logData.threat_type,
+                    source: logData.source
+                });
+    
+                log.save()
+                    .then(() => {
+                        console.log("Log salvato su MongoDB");
+                    })
+                    .catch((err) => {
+                        console.error("Errore durante il salvataggio del log:", err);
+                    });
+            });
             res.json(logs);
         } catch (parseError) {
             console.error("Errore nel parsing dei dati JSON:", parseError);
-            console.error("Output ricevuto:", stdout);
             res.status(500).json({ error: "Errore nel parsing dei dati di analisi" });
         }
     });

@@ -8,7 +8,6 @@ async function fetchLogs() {
         logs.forEach(log => {
             const row = `<tr>
                 <td>${new Date(log.timestamp).toLocaleString()}</td>
-                <td>${log.connection_id}</td>
                 <td class="${log.alert_level === 'High' ? 'text-danger' : log.alert_level === 'Medium' ? 'text-warning' : 'text-success'}">
                     ${log.alert_level}
                 </td>
