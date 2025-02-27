@@ -44,7 +44,7 @@ https.createServer({ key, cert }, app).listen(PORT_HTTPS, () => {
 
 app.get("/logs", (req, res) => {
    
-    const command = 'python analyze.py "C:/Users/fabri/Desktop/Cose Importanti/Università/Magistrale/Network Security/progetto/raccolta.csv"';
+    const command = 'python analyze.py "raccolta.csv"';
     
     exec(command, (error, stdout, stderr) => {
         if (error) {

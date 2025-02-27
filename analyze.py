@@ -104,7 +104,6 @@ def analyze_traffic(csv_file):
         if not alerts:
             return [{
                 "timestamp": now,
-                "connection_id": "None",
                 "alert_level": "Safe",
                 "threat_type": "No Threat Detected",
                 "source": "N/A"
