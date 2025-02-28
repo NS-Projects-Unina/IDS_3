@@ -81,6 +81,13 @@ app.get("/logs", (req, res) => {
         }
     });
 });
-
+app.get("/history", (req, res) => {
+    Log.find({})
+        .then(logs => res.json(logs))
+        .catch(err => {
+            console.error("Errore nel recupero dei log:", err);
+            res.status(500).json({ error: "Errore nel recupero dei log" });
+        });
+});
 
 
